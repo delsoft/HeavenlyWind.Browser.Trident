@@ -2,10 +2,8 @@
 using Sakuno.SystemInterop;
 using SHDocVw;
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Controls;
 using WebBrowser = System.Windows.Controls.WebBrowser;
 
@@ -27,7 +25,7 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
             r_Browser.Navigated += (s, e) => SuppressScriptError();
             r_Browser.LoadCompleted += (s, e) => LoadCompleted(r_Browser.CanGoBack, r_Browser.CanGoForward, e.Uri.ToString());
         }
-        
+
         public void GoBack() => r_Browser.GoBack();
         public void GoForward() => r_Browser.GoForward();
 
@@ -41,45 +39,6 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
 
             if (rWebBrowser != null)
                 rWebBrowser.Silent = true;
-        }
-
-        public bool TryExtractFlash()
-        {
-            try
-            {
-                IHTMLElement rElement;
-                var rDocument = r_Browser.Document as HTMLDocument;
-                var rUri = r_Browser.Source;
-
-                if (rUri.AbsoluteUri.Contains("gadgets/=/app_id=854854"))
-                    rElement = rDocument.getElementById("game_frame");
-                else
-                    rElement = rDocument.getElementsByTagName("EMBED").OfType<IHTMLElement>().SingleOrDefault(r => ((string)r.getAttribute("src")).Contains("kcs/mainD2.swf"));
-
-                if (rElement == null)
-                    return false;
-
-                rElement.document.createStyleSheet().cssText = @"body {
-    margin: 0;
-    overflow: hidden;
-}
-        
-#game_frame {
-    position: fixed;
-    left: 50%;
-    top: -16px;
-    margin-left: -450px;
-    z-index: 1;
-}";
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-
-                return false;
-            }
         }
 
         public void SetZoom(double rpZoom)
@@ -119,11 +78,11 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
                     if (rServiceProvider == null)
                         return null;
 
-                    var rGuidWebBrowserApp = typeof(SHDocVw.IWebBrowserApp).GUID;
-                    var rGuidWebBrowser2 = typeof(SHDocVw.IWebBrowser2).GUID;
+                    var rGuidWebBrowserApp = typeof(IWebBrowserApp).GUID;
+                    var rGuidWebBrowser2 = typeof(IWebBrowser2).GUID;
                     object rObject;
                     rServiceProvider.QueryService(ref rGuidWebBrowserApp, ref rGuidWebBrowser2, out rObject);
-                    var rWebBrowser = rObject as SHDocVw.IWebBrowser2;
+                    var rWebBrowser = rObject as IWebBrowser2;
                     if (rWebBrowser == null || rWebBrowser.Document == null)
                         return null;
 
@@ -139,10 +98,12 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
         }
         ScreenshotData TakeScreenshotCore(NativeInterfaces.IViewObject rpViewObject)
         {
+            const int BitCount = 24;
+
             var rEmbedElement = rpViewObject as HTMLEmbed;
             var rWidth = rEmbedElement.clientWidth;
             var rHeight = rEmbedElement.clientHeight;
-            
+
             var rScreenDC = NativeMethods.User32.GetDC(IntPtr.Zero);
             var rHDC = NativeMethods.Gdi32.CreateCompatibleDC(rScreenDC);
 
@@ -150,7 +111,7 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
             rInfo.bmiHeader.biSize = Marshal.SizeOf(typeof(NativeStructs.BITMAPINFOHEADER));
             rInfo.bmiHeader.biWidth = rWidth;
             rInfo.bmiHeader.biHeight = rHeight;
-            rInfo.bmiHeader.biBitCount = 24;
+            rInfo.bmiHeader.biBitCount = BitCount;
             rInfo.bmiHeader.biPlanes = 1;
 
             IntPtr rBits;
@@ -161,8 +122,8 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
             var rRect = new NativeStructs.RECT(0, 0, rWidth, rHeight);
             var rEmptyRect = default(NativeStructs.RECT);
             rpViewObject.Draw(1, 0, IntPtr.Zero, ref rTargetDevice, IntPtr.Zero, rHDC, ref rRect, ref rEmptyRect, IntPtr.Zero, IntPtr.Zero);
-            
-            var rResult = new ScreenshotData(rWidth, rHeight);
+
+            var rResult = new ScreenshotData(rWidth, rHeight, BitCount);
 
             var rPixels = new byte[rWidth * rHeight * 3];
             Marshal.Copy(rBits, rPixels, 0, rPixels.Length);
