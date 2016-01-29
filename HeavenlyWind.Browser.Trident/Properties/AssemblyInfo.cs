@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
 [assembly: AssemblyTitle("HeavenlyWind.Browser.Trident")]
-[assembly: AssemblyDescription("Trident layout engine for HeavenlyWind")]
+[assembly: AssemblyDescription("Trident layout engine for KanColle Inspector")]
 [assembly: AssemblyCompany("sakuno.moe")]
 [assembly: AssemblyProduct("HeavenlyWind.Browser.Trident")]
 [assembly: AssemblyCopyright("Copyright © 2015 神樹桜乃")]
@@ -29,4 +29,4 @@ using System.Runtime.InteropServices;
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を 
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.1.0")]
+[assembly: AssemblyVersion("0.1.5")]
