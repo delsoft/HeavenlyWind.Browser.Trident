@@ -77,13 +77,22 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
 
             Marshal.FreeHGlobal(rBuffer);
         }
-        
+
+        static int GetIEVersion()
+        {
+            const string rKey = @"HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer";
+            var rVersionText = Registry.GetValue(rKey, "svcVersion", null) as string;
+            return rVersionText != null ? Version.Parse(rVersionText).Major * 1000 : 8000;
+        }
         static void SetRegistry()
         {
             const string rKey = @"HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
             var rProcessName = Process.GetCurrentProcess().ProcessName + ".exe";
             if (Registry.GetValue(rKey, rProcessName, null) == null)
-                Registry.SetValue(rKey, rProcessName, 0, RegistryValueKind.DWord);
+                if (OS.IsWin10OrLater)
+                    Registry.SetValue(rKey, rProcessName, "11000", RegistryValueKind.DWord);
+                else
+                    Registry.SetValue(rKey, rProcessName, GetIEVersion(), RegistryValueKind.DWord);
         }
     }
 }
