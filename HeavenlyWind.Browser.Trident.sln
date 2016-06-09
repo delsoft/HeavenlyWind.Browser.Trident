@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavenlyWind.Browser.Trident", "HeavenlyWind.Browser.Trident\HeavenlyWind.Browser.Trident.csproj", "{3D45C580-8AE0-4BF3-B067-83B7D93B0D07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeavenlyWind.Base", "HeavenlyWind\HeavenlyWind.Base\HeavenlyWind.Base.csproj", "{EEB0BEA3-8D40-47C3-AEEF-BA7774D721CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sakuno.Base", "Library\Sakuno.Base\Sakuno.Base.csproj", "{85FE16EB-F999-445C-872E-B8181C67031C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sakuno.SystemInterop", "Library\Sakuno.SystemInterop\Sakuno.SystemInterop.csproj", "{3CD66841-054E-409B-8653-F846216061AA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{093B9851-E3A6-49D4-B927-D7A86063BAB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sakuno.Base", "HeavenlyWind\Library\Sakuno.Base\Sakuno.Base.csproj", "{85FE16EB-F999-445C-872E-B8181C67031C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sakuno.SystemInterop", "HeavenlyWind\Library\Sakuno.SystemInterop\Sakuno.SystemInterop.csproj", "{3CD66841-054E-409B-8653-F846216061AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sakuno.UserInterface", "HeavenlyWind\Library\Sakuno.UserInterface\Sakuno.UserInterface.csproj", "{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{3CD66841-054E-409B-8653-F846216061AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD66841-054E-409B-8653-F846216061AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD66841-054E-409B-8653-F846216061AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,5 +49,6 @@ Global
 		{EEB0BEA3-8D40-47C3-AEEF-BA7774D721CA} = {093B9851-E3A6-49D4-B927-D7A86063BAB9}
 		{85FE16EB-F999-445C-872E-B8181C67031C} = {093B9851-E3A6-49D4-B927-D7A86063BAB9}
 		{3CD66841-054E-409B-8653-F846216061AA} = {093B9851-E3A6-49D4-B927-D7A86063BAB9}
+		{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8} = {093B9851-E3A6-49D4-B927-D7A86063BAB9}
 	EndGlobalSection
 EndGlobal

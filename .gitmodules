@@ -1,6 +1,3 @@
 [submodule "HeavenlyWind"]
 	path = HeavenlyWind
 	url = https://github.com/amatukaze/HeavenlyWind
-[submodule "Library"]
-	path = Library
-	url = https://github.com/KodamaSakuno/Library

@@ -57,11 +57,11 @@
       <Project>{eeb0bea3-8d40-47c3-aeef-ba7774d721ca}</Project>
       <Name>HeavenlyWind.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Library\Sakuno.Base\Sakuno.Base.csproj">
+    <ProjectReference Include="..\HeavenlyWind\Library\Sakuno.Base\Sakuno.Base.csproj">
       <Project>{85fe16eb-f999-445c-872e-b8181c67031c}</Project>
       <Name>Sakuno.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Library\Sakuno.SystemInterop\Sakuno.SystemInterop.csproj">
+    <ProjectReference Include="..\HeavenlyWind\Library\Sakuno.SystemInterop\Sakuno.SystemInterop.csproj">
       <Project>{3cd66841-054e-409b-8653-f846216061aa}</Project>
       <Name>Sakuno.SystemInterop</Name>
     </ProjectReference>
