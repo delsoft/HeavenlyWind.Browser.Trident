@@ -2,6 +2,7 @@
 using Sakuno.SystemInterop;
 using SHDocVw;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
@@ -23,7 +24,12 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
             r_WebBrowser2FieldInfo = typeof(WebBrowser).GetField("_axIWebBrowser2", BindingFlags.Instance | BindingFlags.NonPublic);
 
             r_Browser.Navigated += (s, e) => SuppressScriptError();
-            r_Browser.LoadCompleted += (s, e) => LoadCompleted(r_Browser.CanGoBack, r_Browser.CanGoForward, e.Uri.ToString());
+            r_Browser.LoadCompleted += (s, e) =>
+            {
+                LoadCompleted(r_Browser.CanGoBack, r_Browser.CanGoForward, e.Uri.ToString());
+
+                ExtractFlash();
+            };
         }
 
         public void GoBack() => r_Browser.GoBack();
@@ -49,6 +55,40 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
             {
                 object rZoom = (int)(rpZoom * 100);
                 rWebBrowser.ExecWB(OLECMDID.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref rZoom);
+            }
+        }
+
+        public void ExtractFlash()
+        {
+            try
+            {
+                IHTMLElement rElement;
+                var rDocument = r_Browser.Document as HTMLDocument;
+                var rUri = r_Browser.Source;
+
+                if (rUri.AbsoluteUri == GameConstants.GamePageUrl)
+                    rElement = rDocument.getElementById("game_frame");
+                else
+                    rElement = rDocument.getElementsByTagName("EMBED").OfType<IHTMLElement>().SingleOrDefault(r => ((string)r.getAttribute("src")).Contains("kcs/mainD2.swf"));
+
+                if (rElement != null)
+                {
+                    rElement.document.createStyleSheet().cssText = @"body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#game_frame {
+    position: fixed;
+    left: 50%;
+    top: -16px;
+    margin-left: -450px;
+    z-index: 255;
+}";
+                }
+            }
+            catch
+            {
             }
         }
 
