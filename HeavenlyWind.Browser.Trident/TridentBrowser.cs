@@ -1,6 +1,7 @@
 ﻿using mshtml;
-using Sakuno.KanColle.Amatsukaze.Browser;
+using Sakuno.Reflection;
 using Sakuno.SystemInterop;
+using Sakuno.UserInterface;
 using SHDocVw;
 using System;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
 
             r_WebBrowser2FieldInfo = typeof(WebBrowser).GetField("_axIWebBrowser2", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            r_Browser.Navigated += (s, e) => SuppressScriptError();
+            r_Browser.Navigated += (s, e) => ConfigureBrowser();
             r_Browser.LoadCompleted += (s, e) =>
             {
                 LoadCompleted(r_Browser.CanGoBack, r_Browser.CanGoForward, e.Uri.ToString());
@@ -40,23 +41,26 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
 
         public void Refresh() => r_Browser.Refresh();
 
-        void SuppressScriptError()
+        void ConfigureBrowser()
         {
-            var rWebBrowser = r_WebBrowser2FieldInfo?.GetValue(r_Browser) as SHDocVw.WebBrowser;
+            var rWebBrowser = r_WebBrowser2FieldInfo?.FastGetValue(r_Browser) as SHDocVw.WebBrowser;
+            if (rWebBrowser == null)
+                return;
 
-            if (rWebBrowser != null)
-                rWebBrowser.Silent = true;
+            rWebBrowser.Silent = true;
+            rWebBrowser.RegisterAsDropTarget = false;
         }
 
         public void SetZoom(double rpZoom)
         {
-            var rWebBrowser = r_WebBrowser2FieldInfo?.GetValue(r_Browser) as SHDocVw.WebBrowser;
+            var rWebBrowser = r_WebBrowser2FieldInfo?.FastGetValue(r_Browser) as SHDocVw.WebBrowser;
+            if (rWebBrowser == null)
+                return;
 
-            if (rWebBrowser != null)
-            {
-                object rZoom = (int)(rpZoom * 100);
-                rWebBrowser.ExecWB(OLECMDID.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref rZoom);
-            }
+            rpZoom = DpiUtil.ScaleX + rpZoom - 1.0;
+
+            object rZoom = (int)(rpZoom * 100);
+            rWebBrowser.ExecWB(OLECMDID.OLECMDID_OPTICAL_ZOOM, OLECMDEXECOPT.OLECMDEXECOPT_DODEFAULT, ref rZoom);
         }
 
         public void ExtractFlash()

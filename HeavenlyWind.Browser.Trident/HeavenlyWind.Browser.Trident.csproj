@@ -65,6 +65,10 @@
       <Project>{3cd66841-054e-409b-8653-f846216061aa}</Project>
       <Name>Sakuno.SystemInterop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HeavenlyWind\Library\Sakuno.UserInterface\Sakuno.UserInterface.csproj">
+      <Project>{DBA4B269-E3EC-43BE-83E6-EE9DEDFA21F8}</Project>
+      <Name>Sakuno.UserInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SHDocVw">

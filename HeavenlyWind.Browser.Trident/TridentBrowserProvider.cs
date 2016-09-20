@@ -12,7 +12,13 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
 
         public IBrowser CreateBrowserInstance()
         {
-            SetRegistry();
+            try
+            {
+                SetRegistry();
+            }
+            catch
+            {
+            }
 
             return r_BrowserInstance ?? (r_BrowserInstance = new TridentBrowser());
         }
