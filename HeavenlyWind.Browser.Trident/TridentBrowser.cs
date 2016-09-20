@@ -1,4 +1,5 @@
 ﻿using mshtml;
+using Sakuno.KanColle.Amatsukaze.Browser;
 using Sakuno.SystemInterop;
 using SHDocVw;
 using System;
@@ -120,8 +121,7 @@ namespace Sakuno.KanColle.Amatsukaze.Browser.Trident
 
                     var rGuidWebBrowserApp = typeof(IWebBrowserApp).GUID;
                     var rGuidWebBrowser2 = typeof(IWebBrowser2).GUID;
-                    object rObject;
-                    rServiceProvider.QueryService(ref rGuidWebBrowserApp, ref rGuidWebBrowser2, out rObject);
+                    var rObject = rServiceProvider.QueryService(ref rGuidWebBrowserApp, ref rGuidWebBrowser2);
                     var rWebBrowser = rObject as IWebBrowser2;
                     if (rWebBrowser == null || rWebBrowser.Document == null)
                         return null;
